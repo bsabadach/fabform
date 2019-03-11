@@ -34,7 +34,7 @@ export const AgeConstraint: ValueConstraint<'adult'> = {
                   className={isDirty && errors.has ? 'invalid' : undefined}
                   {...config}
                 />
-                {isDirty && errors.required && <label>Champ obligatoire</label>}
+                {isDirty && errors.required && <label>This field is required</label>}
               </div>
             )}
           />
@@ -52,11 +52,11 @@ export const AgeConstraint: ValueConstraint<'adult'> = {
                   className={isDirty && errors.has ? 'invalid' : undefined}
                   placeholder="number" />
                   <div>
-                   {isDirty && errors.required && <label>Champ obligatoire</label>}
+                   {isDirty && errors.required && <label>This field is required</label>}
                    {isDirty && !errors.required && errors.number
-                     && <label>Cette valeur n'est pas un nombre</label>}
+                     && <label>This value is not a number</label>}
                    {isDirty && (!errors.number && !errors.required) && errors.adult
-                     && <label>Cette personne n'est pas adulte</label>}
+                     && <label>This person is not of legal age</label>}
                    </div>
               </div>
             )}
