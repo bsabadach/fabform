@@ -4,7 +4,7 @@
 
 ## Installation
 
-### Get started full simple example
+## Get started full simple example
 
 ```html
 
@@ -113,7 +113,9 @@ const {
 #### Form component:
 ```html
 <Form
-    onSubmit={(value: PersonFormValues) => { /* add fields */ }>
+    onSubmit={yourSubmitCallback}>
+      /* add fields */
+  </Form>
 ```
 
 | attribute  | description| type  |  required |
@@ -132,8 +134,7 @@ They all accept children as function with the same signature
 ex:
 ```html
 <TextField
-    name='xxxx'
-    required>
+    name='xxxx'>
     {({ value, handleChange, config, errors, isDirty }) => (
         <input value={value}
                 onChange={handleChange}
@@ -147,9 +148,9 @@ ex:
 |  attribute | description  |  type |  required |
 |---|---|---|---|
 |  name |  name of the field: must match one of the keys of your custom object |  FormValueType |  true |
-|  required |  flag the field as required |  boolean |  false |
+|  required |  flags the field as required |  boolean |  false |
 |  constraint | extra custom constraints to apply on the field (see dedicated paragraph)  |  ```ValueConstraint<C extends string> or ValueConstraint<C extends string>[]``` |  false |
-|  renderer |  external component used to render child |  FC:FieldRendererProps<V,C> |  false |
+|  renderer |  external component used to render child |  FC:FieldRendererProps<V extends FormValueType,C extends string> |  false |
 
 
 
@@ -174,7 +175,7 @@ ex:
 ### Other components
 all components can be obtained by the ```createFormComponents``` factory return value
 
-#### FormValues component: ```FormValues```
+#### ```FormValues```
  provides a way to access to any value of the form anywhere
 
 ```html
@@ -183,19 +184,46 @@ all components can be obtained by the ```createFormComponents``` factory return 
   )/>
   ```
 
-#### Submit action: ```SubmitAction```
-
+#### ```SubmitAction```
+submit the form
 ```html
 <SubmitAction>
   {(submit) => <button onClick={submit} type='button'>submit form</button>}
 </SubmitAction>
 ```
 
-#### Reset action: ```ResetAction```
-
+#### ```ResetAction```
+reassign initial values to current form values and re-initialize form state
 ```html
 <ResetAction>
   {reset => <button onClick={reset} className='btn'
     type='button'>reset</button>}
 </ResetAction>
-``:
+```
+
+
+### constraint API
+
+any number of custom constrains can be applied on TextField and NumberField as long as they are of the following type:
+
+```ts
+type ValueConstraint<N extends string> = {
+  name: N
+  check: (value: FormValueType) => boolean
+}
+```
+
+the name you provide will be used as a new key in the errors parameter
+
+for instance declaring
+```ts
+export const NoNumberConstraint:ValueConstraint<'nonumber'>={
+  name:'nonumber',
+  check(val: FormValueType) {
+    return /^([^0-9]*)$/.test(val as string)
+  }
+}
+```
+on a text field, your IDE should suggest the name in the error parameter in addition to the generic errors
+
+![](docs/constraint-ide-suggestion.png)
