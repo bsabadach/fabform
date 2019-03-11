@@ -6,6 +6,67 @@
 
 ## Usage
 
+### Get started full simple example
+
+```js
+
+
+export const AgeConstraint: ValueConstraint<'adult'> = {
+  name: 'adult',
+  check(val: FormValueType) {
+    return val >= 18
+  }
+}
+
+...
+
+    <Form
+      onSubmit={(val: PersonFormValues) => {
+        console.log(JSON.stringify(values))
+      }}>
+      validateOn='change'>
+        <div>
+          <label>First name: </label>
+          <TextField
+            name='firstname'
+            required
+            renderer={({ value, handleChange, config, errors, isDirty }) => (
+              <>
+                <SimpleInput handleChange={handleChange}
+                  value={value}
+                  className={isDirty && errors.has ? 'invalid' : undefined}
+                  {...config}
+                />
+                {isDirty && errors.required && <label>Champ obligatoire</label>}
+              </>
+            )}
+          />
+        </div>
+        <div>
+          <label>Age: </label>
+          <NumberField
+            name='age'
+            required
+            constraints={AgeConstraint}>
+            {({ value, handleChange, errors, isDirty, config }) => (
+              <div>
+                <SimpleInput {...config}
+                  handleChange={handleChange}
+                  className={isDirty && errors.has ? 'invalid' : undefined}
+                  placeholder="number" />
+                  <>
+                   {isDirty && errors.required && <label>Champ obligatoire</label>}
+                   {isDirty && !errors.required && errors.number && <label>Cette valeur n'est pas un nombre</label>}
+                   {isDirty && (!errors.number && !errors.required) && errors.adult && <label>Cette personne n'est pas adulte</label>}
+                   </>
+              </div>
+            )}
+          </NumberField>
+        </div>
+    </Form>
+```
+
+
 ### prepare your data
 
 the form must be populated with a flat objet with key of values pairs
@@ -106,6 +167,6 @@ ex:
 |---|---|---|
 |  value |  the current value of the field|  the type of the value with the same attribute in initial state |
 |  handleChange |  callback to change the value|  ```(val:FormValueType) => void```  |
-|  handleChange |  callback to change the value|  ```(val:FormValueType) => void```  |
 |  config |  object that holds input attributes declared on the parent Field|  ```config:{type: FieldType, name: string}```  |
 |  errors |  object that holds all generic errors and user derived from user defined constraints|  ```FieldErrors<C extends string>```  |
+|  isDirty | flags indicating that the field value was updated at least once|  ```boolean```  |
