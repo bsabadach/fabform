@@ -3,5 +3,5 @@ node_modules
 .vscode
 .rpt2_cache
 dist
-examples/dist
-examples/.cache
+example/dist
+example/.cache
