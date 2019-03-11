@@ -222,6 +222,6 @@ export const NoNumberConstraint:ValueConstraint<'nonumber'>={
   }
 }
 ```
-then, your IDE should suggest the name in the error parameter in addition to the generic errors.
+then, your IDE should suggest the name as a new key in the error parameter in addition to generic key errors names.
 
 ![](docs/constraint-ide-suggestion.png)
