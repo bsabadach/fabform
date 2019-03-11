@@ -7,19 +7,13 @@
 ## Get started full simple example
 
 ```ts
-const AgeConstraint: ValueConstraint<'adult'> = {
+export const AgeConstraint: ValueConstraint<'adult'> = {
   name: 'adult',
   check(val: FormValueType) {
     return val >= 18
   }
 }
-const {
-  Form,
-  TextField,
-  NumberField,
-  SubmitAction,
-} = createFormComponents<PersonFormValues>(personFormValues)
-```
+```ts
 
 ```html
     <Form
@@ -67,9 +61,6 @@ const {
             )}
           </NumberField>
         </div>
-        <SubmitAction>
-          {(submit) => <button onClick={submit} type='button'>submit</button>}
-        </SubmitAction>
     </Form>
 ```
 
