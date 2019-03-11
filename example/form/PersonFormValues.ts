@@ -1,5 +1,3 @@
-import { AgeConstraint } from "./personConstraints";
-
 export type PersonFormValues = {
   firstname: string,
   lastname: string,
@@ -46,4 +44,3 @@ export const maritalStatusOptions: MaritalStatusOption[] = [
     value: 'complicated',
   },
 ]
-
