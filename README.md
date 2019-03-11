@@ -13,7 +13,8 @@ export const AgeConstraint: ValueConstraint<'adult'> = {
     return val >= 18
   }
 }
-```ts
+```
+
 
 ```html
     <Form
@@ -71,7 +72,7 @@ export const AgeConstraint: ValueConstraint<'adult'> = {
 the form must be populated with a flat objet with key of values pairs
 
 1) create your data type:
- ```js
+ ```ts
  export type PersonFormValues = {
   firstname: string,
   lastname: string,
@@ -84,7 +85,7 @@ the form must be populated with a flat objet with key of values pairs
 
 
 2) create initial state
-```js
+```ts
 export const personFormValues: PersonFormValues = {
   age: 35,
   firstname: 'jean',
@@ -95,7 +96,7 @@ export const personFormValues: PersonFormValues = {
 
 ### Obtain contextualized components using factory method ```createFormComponent```
 
-```js
+```ts
 const {
   Form,
   TextField,
