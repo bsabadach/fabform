@@ -56,8 +56,8 @@ export const AgeConstraint: ValueConstraint<'adult'> = {
                   placeholder="number" />
                   <>
                    {isDirty && errors.required && <label>Champ obligatoire</label>}
-                   {isDirty && !errors.required && errors.number && <label>Cette valeur n'est pas un nombre</label>}
-                   {isDirty && (!errors.number && !errors.required) && errors.adult && <label>Cette personne n'est pas adulte</label>}
+                   {isDirty && !errors.required && errors.number && <label>Cette valeur n\''est pas un nombre</label>}
+                   {isDirty && (!errors.number && !errors.required) && errors.adult && <label>Cette personne n\''est pas adulte</label>}
                    </>
               </div>
             )}
