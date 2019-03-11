@@ -29,14 +29,14 @@ export const AgeConstraint: ValueConstraint<'adult'> = {
             name='firstname'
             required
             renderer={({ value, handleChange, config, errors, isDirty }) => (
-              <>
+              <div>
                 <SimpleInput handleChange={handleChange}
                   value={value}
                   className={isDirty && errors.has ? 'invalid' : undefined}
                   {...config}
                 />
                 {isDirty && errors.required && <label>Champ obligatoire</label>}
-              </>
+              </div>
             )}
           />
         </div>
@@ -52,13 +52,13 @@ export const AgeConstraint: ValueConstraint<'adult'> = {
                   handleChange={handleChange}
                   className={isDirty && errors.has ? 'invalid' : undefined}
                   placeholder="number" />
-                  <>
+                  <div>
                    {isDirty && errors.required && <label>Champ obligatoire</label>}
                    {isDirty && !errors.required && errors.number
                      && <label>Cette valeur n\''est pas un nombre</label>}
                    {isDirty && (!errors.number && !errors.required) && errors.adult
                      && <label>Cette personne n\''est pas adulte</label>}
-                   </>
+                   </div>
               </div>
             )}
           </NumberField>
