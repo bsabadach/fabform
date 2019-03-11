@@ -1,7 +1,6 @@
-import * as React, { useState } from 'react';
+import  React, { useState } from 'react';
 import {
   AgeConstraint,
-  emailPattern,
   MiddleAgeConstraint,
   NoNumberConstraint
   } from './personConstraints';
