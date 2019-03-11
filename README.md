@@ -6,18 +6,22 @@
 
 ## Get started full simple example
 
-```html
-
-
-export const AgeConstraint: ValueConstraint<'adult'> = {
+```ts
+const AgeConstraint: ValueConstraint<'adult'> = {
   name: 'adult',
   check(val: FormValueType) {
     return val >= 18
   }
 }
+const {
+  Form,
+  TextField,
+  NumberField,
+  SubmitAction,
+} = createFormComponents<PersonFormValues>(personFormValues)
+```
 
-...
-
+```html
     <Form
       onSubmit={(val: PersonFormValues) => {
         console.log(JSON.stringify(values))
@@ -63,6 +67,9 @@ export const AgeConstraint: ValueConstraint<'adult'> = {
             )}
           </NumberField>
         </div>
+        <SubmitAction>
+          {(submit) => <button onClick={submit} type='button'>submit</button>}
+        </SubmitAction>
     </Form>
 ```
 
@@ -213,9 +220,8 @@ type ValueConstraint<N extends string> = {
 }
 ```
 
-the name you provide will be used as a new key in the errors parameter
-
-for instance declaring
+the name you provide will be used as a new key in the errors parameter.
+for instance adding following constraint on a text field
 ```ts
 export const NoNumberConstraint:ValueConstraint<'nonumber'>={
   name:'nonumber',
@@ -224,6 +230,6 @@ export const NoNumberConstraint:ValueConstraint<'nonumber'>={
   }
 }
 ```
-on a text field, your IDE should suggest the name in the error parameter in addition to the generic errors
+then, your IDE should suggest the name in the error parameter in addition to the generic errors.
 
 ![](docs/constraint-ide-suggestion.png)
