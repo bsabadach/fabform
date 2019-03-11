@@ -54,9 +54,9 @@ export const AgeConstraint: ValueConstraint<'adult'> = {
                   <div>
                    {isDirty && errors.required && <label>Champ obligatoire</label>}
                    {isDirty && !errors.required && errors.number
-                     && <label>Cette valeur n\''est pas un nombre</label>}
+                     && <label>Cette valeur n\'est pas un nombre</label>}
                    {isDirty && (!errors.number && !errors.required) && errors.adult
-                     && <label>Cette personne n\''est pas adulte</label>}
+                     && <label>Cette personne n\'est pas adulte</label>}
                    </div>
               </div>
             )}
@@ -125,9 +125,8 @@ const {
 | validateOn  |  validation strategy for each field. When not provided all fields will checked before submitting the form| 'blur' or 'change' | false  |
 
 
-### Fields components
+### Fields  common API
 
-##### Field components are ```TextField, NumberField, BooleanField```
 They all accept children as function with the same signature
 
 ex:
@@ -154,7 +153,7 @@ ex:
 
 
 
-#### Text field additional API
+#### ```TextField``` additional API
 |  attribute | description  |  type |  required |
 |---|---|---|---|
 |  pattern |  a reg. exp. used as constraint|  ```RegExp``` |  false |
@@ -165,7 +164,7 @@ ex:
 #### Field children function common API
 |  parameter | description  |  type |
 |---|---|---|
-|  value |  the current value of the field|  the type of the value with the same attribute in initial state |
+|  value |  the current value of the field|  the type of the value with the same attribute name in the values type|
 |  handleChange |  callback to change the value|  ```(val:FormValueType) => void```  |
 |  config |  object that holds input attributes declared on the parent Field|  ```config:{type: FieldType, name: string}```  |
 |  errors |  object that holds all generic errors and user derived from user defined constraints|  ```FieldErrors<C extends string>```  |
@@ -175,11 +174,12 @@ ex:
 all components can be obtained by the ```createFormComponents``` factory return value
 
 #### ```FormValues```
- provides a way to access to any value of the form anywhere
+ provides a way to access to any value of the form anywhere in the form
 
 ```html
 <FormValues>
   {(values: YourFormValuesType) => (
+    <!-- children -->
   )/>
   ```
 
