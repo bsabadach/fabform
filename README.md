@@ -6,7 +6,7 @@
 
 ### Get started full simple example
 
-```js
+```html
 
 
 export const AgeConstraint: ValueConstraint<'adult'> = {
@@ -111,7 +111,7 @@ const {
 ### Build the form view
 
 #### Form component:
-```js
+```html
 <Form
     onSubmit={(value: PersonFormValues) => { /* add fields */ }>
 ```
@@ -130,7 +130,7 @@ const {
 They all accept children as function with the same signature
 
 ex:
-```js
+```html
 <TextField
     name='xxxx'
     required>
@@ -172,12 +172,12 @@ ex:
 |  isDirty | flags indicating that the field value was updated at least once|  ```boolean```  |
 
 ### Other components
+all components can be obtained by the ```createFormComponents``` factory return value
 
-#### FormValues component
-- can be obtained by the ```createFormComponents``` factory return value
-- provides a way to access to any value of the form anywhere
+#### FormValues component: ```FormValues```
+ provides a way to access to any value of the form anywhere
 
-```js
+```html
 <FormValues>
   {(values: YourFormValuesType) => (
   )/>
@@ -185,16 +185,17 @@ ex:
 
 #### Submit action: ```SubmitAction```
 
-```js
+```html
 <SubmitAction>
   {(submit) => <button onClick={submit} type='button'>submit form</button>}
 </SubmitAction>
 ```
 
-#### Submit action: ```ResetAction```
+#### Reset action: ```ResetAction```
 
 ```html
 <ResetAction>
-  {reset => <button onClick={reset} type='button'>reset</button>}
+  {reset => <button onClick={reset} className='btn'
+    type='button'>reset</button>}
 </ResetAction>
-```
+``:
