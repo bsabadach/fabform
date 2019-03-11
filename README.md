@@ -4,8 +4,6 @@
 
 ## Installation
 
-## Usage
-
 ### Get started full simple example
 
 ```js
@@ -68,6 +66,7 @@ export const AgeConstraint: ValueConstraint<'adult'> = {
     </Form>
 ```
 
+## Usage
 
 ### prepare your data
 
@@ -111,12 +110,11 @@ const {
 
 ### Build the form view
 
+#### Form component:
 ```js
 <Form
     onSubmit={(value: PersonFormValues) => { /* add fields */ }>
 ```
-
-#### Form component:
 
 | attribute  | description| type  |  required |
 |---|---|---|---|
@@ -172,3 +170,31 @@ ex:
 |  config |  object that holds input attributes declared on the parent Field|  ```config:{type: FieldType, name: string}```  |
 |  errors |  object that holds all generic errors and user derived from user defined constraints|  ```FieldErrors<C extends string>```  |
 |  isDirty | flags indicating that the field value was updated at least once|  ```boolean```  |
+
+### Other components
+
+#### FormValues component
+- can be obtained by the ```createFormComponents``` factory return value
+- provides a way to access to any value of the form anywhere
+
+```js
+<FormValues>
+  {(values: YourFormValuesType) => (
+  )/>
+  ```
+
+#### Submit action: ```SubmitAction```
+
+```js
+<SubmitAction>
+  {(submit) => <button onClick={submit} type='button'>submit form</button>}
+</SubmitAction>
+```
+
+#### Submit action: ```ResetAction```
+
+```html
+<ResetAction>
+  {reset => <button onClick={reset} type='button'>reset</button>}
+</ResetAction>
+```
