@@ -3,8 +3,7 @@ import {
   FormProps,
   FormStore,
   FormValues,
-  FormProviderType,
-  ValidationStrategy
+  FormProviderType
 } from './types'
 import React from 'react'
 
@@ -19,9 +18,8 @@ export const createForm = <V extends FormValues>(
    */
   const Form: FC<FormProps<V>> = props => {
     const [state, updateState] = useState(initialState)
-    const { validateOn, onValueChanged } = props
+    const { validateOn, onValueChanged, onReset, onSubmit, ...attrs } = props
     useEffect(() => {
-      const { onReset, onSubmit } = props
       formStore.callbacks = {
         ...formStore.callbacks,
         afterUpdate: updateState,
@@ -44,9 +42,9 @@ export const createForm = <V extends FormValues>(
       <Provider value={{ actions, state, validateOn }}>
         <form
           noValidate={true}
-          onSubmit={() => {}}
-          onReset={formStore.callbacks.onReset}
-        >
+          onSubmit={() => { }}
+          onReset={() => { }}
+          {...attrs}>
           {props.children}
         </form>
       </Provider>
