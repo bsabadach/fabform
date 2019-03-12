@@ -20,7 +20,7 @@ export const FormDevTool: FC<FormDevToolProps> = ({ values, dirty, valid, valida
   <h2>Devtools</h2>
   <label>Validate fields:</label>
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <input type="radio" name="validateOn"  onChange={(_) => handleChangeValidateOn(undefined)} checked={validateOn === undefined} />on submit
+      <input type="radio" name="validateOn" value="submit" onChange={(_) => handleChangeValidateOn('submit')} checked={validateOn === 'submit'} />on submit
       <input type="radio" name="validateOn" value="blur" onChange={(_) => handleChangeValidateOn('blur')} checked={validateOn === 'blur'} /> on blur
       <input type="radio" name="validateOn" value="change" onChange={(_) => handleChangeValidateOn('change')} checked={validateOn === 'change'} /> on change
    </div>
