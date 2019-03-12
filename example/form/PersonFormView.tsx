@@ -38,6 +38,8 @@ const PersonFormView = () => {
       }}
       validateOn={validateOn}
       style={{ display: 'flex', flexDirection: 'row' }}>
+      }}>
+      <br />
       <div>
         <div>
           <label>First name: </label>
@@ -92,7 +94,7 @@ const PersonFormView = () => {
                   handleChange={handleChange}
                   className={isDirty && errors.has ? 'invalid' : undefined}
                   placeholder="number"
-                  {...config} />
+                  {...config}/>
                 <AgeErrors isDirty={isDirty} errors={errors} />
               </div>
             )}
