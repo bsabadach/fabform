@@ -38,7 +38,6 @@ const PersonFormView = () => {
       }}
       validateOn={validateOn}
       style={{ display: 'flex', flexDirection: 'row' }}>
-      }}>
       <br />
       <div>
         <div>
