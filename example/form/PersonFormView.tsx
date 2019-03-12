@@ -1,9 +1,9 @@
-import  React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   AgeConstraint,
   NoNumberConstraint,
   emailPattern
-  } from './personConstraints';
+} from './personConstraints';
 import { AgeErrors } from './AgeErrors';
 import { createFormComponents } from '../../src/FormComponents';
 import { EmailInput } from './PersonInputs';
@@ -23,6 +23,7 @@ const {
 } = createFormComponents<PersonFormValues>(personFormValues)
 
 const PersonFormView = () => {
+  const [validateOn, setValidateOn] = useState(undefined)
   const [valChangedEvent, setValChangedEvent] = useState<ValueChangedEvent<PersonFormValues>>({
     name: '',
     oldVal: '',
@@ -34,8 +35,9 @@ const PersonFormView = () => {
       }}
       onValueChanged={(valueChangedEvent) => {
         setValChangedEvent(valueChangedEvent)
-      }}>
-      <br />
+      }}
+      validateOn={validateOn}
+      style={{ display: 'flex', flexDirection: 'row' }}>
       <div>
         <div>
           <label>First name: </label>
@@ -90,7 +92,7 @@ const PersonFormView = () => {
                   handleChange={handleChange}
                   className={isDirty && errors.has ? 'invalid' : undefined}
                   placeholder="number"
-                  {...config}/>
+                  {...config} />
                 <AgeErrors isDirty={isDirty} errors={errors} />
               </div>
             )}
@@ -113,9 +115,9 @@ const PersonFormView = () => {
             {({ value, handleChange, errors }) =>
               <>
                 <div style={{ display: 'flex', flexDirection: 'row', width: '525px' }}>
-                  <input type="radio" name="gender" value="male" onChange={handleChange} checked={value==='male'} />Male
-                  <input type="radio" name="gender" value="female" onChange={handleChange} checked={value==='female'}/> Female
-                  <input type="radio" name="gender" value="other" onChange={handleChange} checked={value==='other'}/> Other
+                  <input type="radio" name="gender" value="male" onChange={handleChange} checked={value === 'male'} />Male
+                  <input type="radio" name="gender" value="female" onChange={handleChange} checked={value === 'female'} /> Female
+                  <input type="radio" name="gender" value="other" onChange={handleChange} checked={value === 'other'} /> Other
                 </div>
                 {errors.has && <label>choice is mandatory</label>}
               </>
@@ -144,24 +146,27 @@ const PersonFormView = () => {
                   type='button'>submit</button>}
               </SubmitAction>
             )}
-        </FormStatus>
+          </FormStatus>
         </div>
       </div>
-
-      <FormValues>
-      {(values)=>(
-        <FormStatus>
-        {({valid,dirty})=>(
-          <FormDevTool 
-              values={values} 
-              valid={valid} 
-              dirty={dirty}
-              valueChangedEvent={valChangedEvent}>
-          </FormDevTool>
-        )}
-        </FormStatus>
-      )}
-      </FormValues>
+      <div>
+        <FormValues>
+          {(values) => (
+            <FormStatus>
+              {({ valid, dirty }) => (
+                <FormDevTool
+                  values={values}
+                  valid={valid}
+                  dirty={dirty}
+                  validateOn={validateOn}
+                  valueChangedEvent={valChangedEvent}
+                  handleChangeValidateOn={setValidateOn}>
+                </FormDevTool>
+              )}
+            </FormStatus>
+          )}
+        </FormValues>
+      </div>
     </Form>
   </div>
 }
