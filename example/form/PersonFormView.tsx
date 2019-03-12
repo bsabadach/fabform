@@ -2,7 +2,8 @@ import  React, { useState } from 'react';
 import {
   AgeConstraint,
   MiddleAgeConstraint,
-  NoNumberConstraint
+  NoNumberConstraint,
+  emailPattern
   } from './personConstraints';
 import { AgeErrors } from './AgeErrors';
 import { createFormComponents } from '../../src/FormComponents';
@@ -15,12 +16,10 @@ const {
   Form,
   TextField,
   NumberField,
-  BooleanField,
   SubmitAction,
   ResetAction,
   FormStatus,
-  FormValues,
-  Assign
+  FormValues
 } = createFormComponents<PersonFormValues>(personFormValues)
 
 const PersonFormView = () => {
@@ -52,12 +51,33 @@ const PersonFormView = () => {
                   {...config}
                 />
                 {isDirty && errors.required && <label>Champ obligatoire</label>}
-                {isDirty && !errors.required && errors.nonumber && <label>Pas de nombres please</label>}
+                {isDirty && !errors.required && errors.nonumber && <label>no number pleas</label>}
               </>
 
             )}
           />
         </div>
+        <div>
+          <label>Last name: </label>
+          <TextField
+            name='lastname'
+            required
+            constraints={NoNumberConstraint}
+            renderer={({ value, handleChange, config, errors, isDirty }) => (
+              <>
+                <SimpleInput handleChange={handleChange}
+                  value={value}
+                  className={isDirty && errors.has ? 'invalid' : undefined}
+                  {...config}
+                />
+                {isDirty && errors.required && <label>Champ obligatoire</label>}
+                {isDirty && !errors.required && errors.nonumber && <label>no number please</label>}
+              </>
+
+            )}
+          />
+        </div>
+
 
         <div>
           <label>Age: </label>
@@ -72,21 +92,9 @@ const PersonFormView = () => {
                   className={isDirty && errors.has ? 'invalid' : undefined}
                   placeholder="number" />
                 <AgeErrors isDirty={isDirty} errors={errors} />
-                <Assign
-                  source={value}
-                  satisfies={MiddleAgeConstraint}
-                  assign={'ageAsString'}
-                  withvalue={value} />
               </div>
             )}
           </NumberField>
-        </div>
-        <div>
-          <label>age as string: </label>
-          <TextField
-            name='ageAsString'>
-            {({ value }) => (<label>{value}</label>)}
-          </TextField>
         </div>
         <div>
           <label>Email: </label>
@@ -97,19 +105,8 @@ const PersonFormView = () => {
             renderer={EmailInput} />
         </div>
         <div>
-          <label>is married: </label>
-          <BooleanField
-            name='isMarried'>
-            {({ value, handleChange }) =>
-              <input type='checkbox'
-                checked={value}
-                onChange={handleChange} />
-            }
-          </BooleanField>
-        </div>
-        <div>
           <label>
-            genre:
+            gender:
           </label>
           <TextField name='gender'
             required>
@@ -125,25 +122,6 @@ const PersonFormView = () => {
             }
           </TextField>
         </div>
-
-        <FormValues>
-          {({ isMarried }: PersonFormValues) => (
-            <div>
-              {isMarried && <div>
-                <label>Partner name: </label>
-                <TextField
-                  name='partner'
-                  required>
-                  {({ handleChange, errors, isDirty, config }) => (
-                    <SimpleInput handleChange={handleChange}
-                      className={isDirty && errors.has ? 'invalid' : undefined}
-                      {...config} />)}
-                </TextField>
-              </div>}
-            </div>
-          )}
-        </FormValues>
-
         <TextField
           name='status'
           required>
@@ -159,12 +137,15 @@ const PersonFormView = () => {
             {reset => <button onClick={reset} className='btn'
               type='button'>reset</button>}
           </ResetAction>
-          <SubmitAction>
-            {(submit) => <button onClick={submit} className='btn'
-              type='button'>submit</button>}
-          </SubmitAction>
+          <FormStatus>
+            {({ valid, dirty }) => (
+              <SubmitAction>
+                {(submit) => <button onClick={submit} className='btn' disabled={!dirty}
+                  type='button'>submit</button>}
+              </SubmitAction>
+            )}
+        </FormStatus>
         </div>
-
       </div>
 
       <div style={{ position: 'fixed', top: '100px', right: '50px', width: '350px' }}>

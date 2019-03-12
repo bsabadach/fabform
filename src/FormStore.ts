@@ -116,7 +116,7 @@ export const createFormStore = <V extends FormValues>(
         callbacks.afterUpdate({
           ...state
         })
-        callbacks.onReset()
+        callbacks.onReset && callbacks.onReset()
       },
       dispose() {
         store.state.fields = {} as Record<keyof V, FieldModel<V, string>>

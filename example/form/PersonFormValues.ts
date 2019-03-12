@@ -4,23 +4,19 @@ export type PersonFormValues = {
   age: number,
   email: string,
   gender: string,
-  isMarried: boolean,
   partner: string,
   status: MaritalStatus | ''
-  ageAsString: string
 }
 
 
 export const personFormValues: PersonFormValues = {
-  firstname: '',
-  lastname: 'sabadach',
+  firstname: 'Brad',
+  lastname: 'Kitt',
   age: 50,
   gender: 'male',
-  email: 'bsa@gmail.com',
-  isMarried: false,
+  email: 'brad@gmail.com',
   partner: '',
-  status: '',
-  ageAsString: ''
+  status: ''
 }
 
 export type MaritalStatus = 'single' | 'relationship' | 'complicated'

@@ -8,11 +8,11 @@ type AgeErrorsProps={
 
 export const AgeErrors:FC<AgeErrorsProps>=({isDirty,errors})=> {
    return  <>
-    {isDirty && errors.required && <label>Champ obligatoire</label>}
-    {isDirty && !errors.required && errors.number && <label>Cette valeur n'est pas un nombre</label>}
+    {isDirty && errors.required && <label>This field is required</label>}
+    {isDirty && !errors.required && errors.number && <label>The value is not a number</label>}
     {isDirty && (!errors.number && !errors.required) && errors.adult &&
-    <label>Cette personne n'est pas adulte</label>}
+    <label>This person is not adult</label>}
     {isDirty && (!errors.number && !errors.required) && errors.senior &&
-    <label>Cette personne est trop agée</label>}
+    <label>This person is too old</label>}
     </>
-} 
+}
