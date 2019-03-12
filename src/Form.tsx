@@ -1,10 +1,5 @@
 import { FC, Provider, useEffect, useState } from 'react'
-import {
-  FormProps,
-  FormStore,
-  FormValues,
-  FormProviderType
-} from './types'
+import { FormProps, FormStore, FormValues, FormProviderType } from './types'
 import React from 'react'
 
 export const createForm = <V extends FormValues>(
@@ -42,9 +37,10 @@ export const createForm = <V extends FormValues>(
       <Provider value={{ actions, state, validateOn }}>
         <form
           noValidate={true}
-          onSubmit={() => { }}
-          onReset={() => { }}
-          {...attrs}>
+          onSubmit={() => {}}
+          onReset={() => {}}
+          {...attrs}
+        >
           {props.children}
         </form>
       </Provider>

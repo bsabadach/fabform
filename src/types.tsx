@@ -21,7 +21,7 @@ export type InputValueType = string | string[] | number
 
 export type FormValueType = InputValueType | boolean
 
-export type ValidationStrategy = 'change' | 'blur' | undefined
+export type ValidationStrategy = 'change' | 'blur' | 'submit'
 
 export type ValueConstraint<N extends string> = {
   name: N
@@ -84,7 +84,7 @@ export interface FieldRendererProps<
   T extends FormValueType,
   C extends string = never
 > {
-  config:{
+  config: {
     type: FieldType
     name: string
   }

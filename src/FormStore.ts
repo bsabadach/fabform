@@ -3,7 +3,8 @@ import {
   FormState,
   FormStore,
   FormValues,
-  FormValueType
+  FormValueType,
+  ValidationStrategy
 } from './types'
 
 export const createFormStore = <V extends FormValues>(
@@ -12,9 +13,7 @@ export const createFormStore = <V extends FormValues>(
   const store = {
     callbacks: {
       afterUpdate: (_: FormState<V>) => {},
-      onValueChanged: ({
-
-      }: {
+      onValueChanged: (_: {
         name: keyof V
         oldVal: FormValueType
         newVal: FormValueType
@@ -29,7 +28,7 @@ export const createFormStore = <V extends FormValues>(
         Object.keys(state.fields).forEach(key => {
           values[key] = state.fields[key].value
         })
-        return values as V
+        return values
       },
       fields: {} as Record<keyof V, FieldModel<V, string>>,
       status: {
@@ -42,7 +41,7 @@ export const createFormStore = <V extends FormValues>(
     },
 
     config: {
-      validateOn: undefined
+      validateOn: 'submit' as ValidationStrategy
     },
 
     actions: {

@@ -62,9 +62,9 @@ export const createField = <V extends FormValues>(
 
     const rendererArgs = {
       value: field.value as T,
-      config:{
+      config: {
         type,
-        name,
+        name
       },
       handleChange,
       errors: field.errors,
