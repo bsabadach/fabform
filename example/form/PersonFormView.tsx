@@ -1,7 +1,6 @@
 import  React, { useState } from 'react';
 import {
   AgeConstraint,
-  MiddleAgeConstraint,
   NoNumberConstraint,
   emailPattern
   } from './personConstraints';
@@ -11,6 +10,7 @@ import { EmailInput } from './PersonInputs';
 import { maritalStatusOptions, PersonFormValues, personFormValues } from './PersonFormValues';
 import { SimpleInput } from '../../src/SimpleInput';
 import { ValueChangedEvent } from '../../src/types';
+import { FormDevTool } from './FormDevTool';
 
 const {
   Form,
@@ -23,7 +23,7 @@ const {
 } = createFormComponents<PersonFormValues>(personFormValues)
 
 const PersonFormView = () => {
-  const [valChangedPayload, setValChangedPayload] = useState<ValueChangedEvent<PersonFormValues>>({
+  const [valChangedEvent, setValChangedEvent] = useState<ValueChangedEvent<PersonFormValues>>({
     name: '',
     oldVal: '',
     newVal: ''
@@ -33,7 +33,7 @@ const PersonFormView = () => {
       onSubmit={(_: PersonFormValues) => {
       }}
       onValueChanged={(valueChangedEvent) => {
-        setValChangedPayload(valueChangedEvent)
+        setValChangedEvent(valueChangedEvent)
       }}>
       <br />
       <div>
@@ -87,10 +87,12 @@ const PersonFormView = () => {
             constraints={AgeConstraint}>
             {({ value, handleChange, errors, isDirty, config }) => (
               <div>
-                <SimpleInput {...config}
+                <SimpleInput
+                  value={value}
                   handleChange={handleChange}
                   className={isDirty && errors.has ? 'invalid' : undefined}
-                  placeholder="number" />
+                  placeholder="number"
+                  {...config}/>
                 <AgeErrors isDirty={isDirty} errors={errors} />
               </div>
             )}
@@ -138,7 +140,7 @@ const PersonFormView = () => {
               type='button'>reset</button>}
           </ResetAction>
           <FormStatus>
-            {({ valid, dirty }) => (
+            {({ dirty }) => (
               <SubmitAction>
                 {(submit) => <button onClick={submit} className='btn' disabled={!dirty}
                   type='button'>submit</button>}
@@ -148,29 +150,20 @@ const PersonFormView = () => {
         </div>
       </div>
 
-      <div style={{ position: 'fixed', top: '100px', right: '50px', width: '350px' }}>
+      <FormValues>
+      {(values)=>(
         <FormStatus>
-          {({ valid, dirty }) => (
-            <>
-              <label>form is touched: {dirty ? 'true' : 'false'}</label>
-              <label>form is valid: {valid ? 'true' : 'false'}</label>
-            </>
-          )}
+        {({valid,dirty})=>(
+          <FormDevTool 
+              values={values} 
+              valid={valid} 
+              dirty={dirty}
+              valueChangedEvent={valChangedEvent}>
+          </FormDevTool>
+        )}
         </FormStatus>
-        <label>Value changes: </label>
-        <textarea value={JSON.stringify(valChangedPayload)} readOnly style={{ width: '100%', height: '50px' }}>
-        </textarea>
-
-        <FormValues>
-          {(values) => (
-            <>
-              <label>Current form values: </label>
-              <textarea value={JSON.stringify(values)} readOnly style={{ width: '100%', height: '50px' }}>
-              </textarea>
-            </>
-          )}
-        </FormValues>
-      </div>
+      )}
+      </FormValues>
     </Form>
   </div>
 }
