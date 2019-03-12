@@ -21,10 +21,3 @@ export const AgeConstraint: ValueConstraint<'adult' | 'senior'>[] = [{
     return val <= 65
   }
 }]
-
-export const MiddleAgeConstraint: ValueConstraint<'middle'>= {
-  name: 'middle',
-  check(val: FormValueType) {
-    return parseInt(val as string,10) === 40
-  }
-}
