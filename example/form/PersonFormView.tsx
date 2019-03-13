@@ -9,7 +9,7 @@ import { createFormComponents } from '../../src/FormComponents';
 import { EmailInput } from './PersonInputs';
 import { maritalStatusOptions, PersonFormValues, personFormValues } from './PersonFormValues';
 import { SimpleInput } from '../../src/SimpleInput';
-import { ValueChangedEvent } from '../../src/types';
+import { ValueChangedEvent, ValidationStrategy } from '../../src/types';
 import { FormDevTool } from './FormDevTool';
 
 const {
@@ -23,7 +23,7 @@ const {
 } = createFormComponents<PersonFormValues>(personFormValues)
 
 const PersonFormView = () => {
-  const [validateOn, setValidateOn] = useState(undefined)
+  const [validateOn, setValidateOn] = useState<ValidationStrategy>('submit')
   const [valChangedEvent, setValChangedEvent] = useState<ValueChangedEvent<PersonFormValues>>({
     name: '',
     oldVal: '',
