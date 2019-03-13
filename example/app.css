@@ -14,17 +14,30 @@ h1 {
     text-align: center;
 }
 
+.app {
+    width: 325px;
+    margin: auto
+}
+
+
+.form__wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 350px;
+}
+
 * + * {
     display: flex;
     flex-direction: column;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin-right: 16px;
+    margin-bottom: 16px;
 }
 
 input {
     height: 18px;
     font-size: 16px;
-    min-width: 50px;
+    min-width: 250px;
+    max-width: 250px;
 }
 
 input.invalid {
@@ -36,6 +49,9 @@ input:focus.invalid {
     outline: none;
     border: 4px solid orangered;
     box-shadow: 0 0 5px orangered;
+}
+select {
+    width:40%;
 }
 
 .btn {
@@ -51,6 +67,18 @@ input:focus.invalid {
     border-radius: 3px;
 }
 
+.radio__wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-items: start;
+}
+
+.radio__wrapper > div {
+    display: flex;
+    flex-direction: row;
+    margin-right: 16px;
+}
+
 .btn:disabled {
     background-color: lightgray;
 }
@@ -63,4 +91,10 @@ input:focus.invalid {
 .title {
     font-family: var(--font-IBM);
     font-size: 46px;
+}
+
+.devtools__wrapper {
+    width: 400px;
+    background-color: rgba(206, 206, 206, 0.57);
+    padding: 10px;
 }

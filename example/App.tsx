@@ -4,7 +4,7 @@ import './app.css'
 
 
 const App = () => (
-    <div style={{maxWidth: '1000px', margin: 'auto'}}>
+    <div className="app">
       <h1 className="title">FabForm</h1>
       <PersonFormView/>
     </div>
