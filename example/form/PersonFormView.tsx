@@ -36,8 +36,7 @@ const PersonFormView = () => {
       onValueChanged={(valueChangedEvent) => {
         setValChangedEvent(valueChangedEvent)
       }}
-      validateOn={validateOn}
-      style={{ display: 'flex', flexDirection: 'row' }}>
+      validateOn={validateOn} className="form__wrapper">
       <br />
       <div>
         <div>
@@ -78,8 +77,6 @@ const PersonFormView = () => {
             )}
           />
         </div>
-
-
         <div>
           <label>Age: </label>
           <NumberField
@@ -87,15 +84,15 @@ const PersonFormView = () => {
             required
             constraints={AgeConstraint}>
             {({ value, handleChange, errors, isDirty, config }) => (
-              <div>
+              <>
                 <SimpleInput
                   value={value}
                   handleChange={handleChange}
                   className={isDirty && errors.has ? 'invalid' : undefined}
                   placeholder="number"
-                  {...config}/>
+                  {...config} />
                 <AgeErrors isDirty={isDirty} errors={errors} />
-              </div>
+              </>
             )}
           </NumberField>
         </div>
@@ -115,10 +112,10 @@ const PersonFormView = () => {
             required>
             {({ value, handleChange, errors }) =>
               <>
-                <div style={{ display: 'flex', flexDirection: 'row', width: '525px' }}>
-                  <input type="radio" name="gender" value="male" onChange={handleChange} checked={value === 'male'} />Male
-                  <input type="radio" name="gender" value="female" onChange={handleChange} checked={value === 'female'} /> Female
-                  <input type="radio" name="gender" value="other" onChange={handleChange} checked={value === 'other'} /> Other
+                <div className="radio__wrapper">
+                  <div><input type="radio" name="gender" value="male" onChange={handleChange} checked={value === 'male'} />Male</div>
+                  <div><input type="radio" name="gender" value="female" onChange={handleChange} checked={value === 'female'} /> Female</div>
+                  <div><input type="radio" name="gender" value="other" onChange={handleChange} checked={value === 'other'} /> Other</div>
                 </div>
                 {errors.has && <label>choice is mandatory</label>}
               </>
@@ -135,7 +132,7 @@ const PersonFormView = () => {
           )}
         </TextField>
 
-        <div style={{ display: 'flex', flexDirection: 'row', width: '525px', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
           <ResetAction>
             {reset => <button onClick={reset} className='btn'
               type='button'>reset</button>}

@@ -4,38 +4,69 @@
 
 body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: var(--color-faber-blue);
-    color: white;
+    background-color: white;
+    color: black;
     font-size: 16px;
     font-weight: 500;
+    padding:0;
+    margin:0;
 }
+
+
+#app {
+    width:100%;
+}
+
 
 h1 {
     text-align: center;
+    margin: 0;
+}
+
+header {
+    height: 50px;
+    background-color: var(--color-faber-blue);
+    color:white;
+    margin-bottom: 32px;
+}
+
+main {
+    width: 1024px;
+    margin: auto;
+    background-color: white;
+}
+
+
+.form__wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 * + * {
     display: flex;
     flex-direction: column;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin-right: 16px;
+    margin-bottom: 16px;
 }
 
 input {
     height: 18px;
     font-size: 16px;
-    min-width: 50px;
+    min-width: 250px;
+    max-width: 250px;
 }
 
 input.invalid {
-    border: 4px solid orangered;
-    box-shadow: 0 0 5px orangered;
+    border: 2px solid orangered;
 }
 
 input:focus.invalid {
     outline: none;
-    border: 4px solid orangered;
-    box-shadow: 0 0 5px orangered;
+    border: 1px solid orangered;
+}
+select {
+    width:40%;
 }
 
 .btn {
@@ -51,16 +82,30 @@ input:focus.invalid {
     border-radius: 3px;
 }
 
-.btn:disabled {
-    background-color: lightgray;
+.radio__wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-items: start;
 }
 
-#app {
-    width: 1024px;
-    margin: auto;
+.radio__wrapper > div {
+    display: flex;
+    flex-direction: row;
+    margin-right: 16px;
+}
+
+.btn:disabled {
+    background-color: lightgray;
 }
 
 .title {
     font-family: var(--font-IBM);
     font-size: 46px;
+}
+
+.devtools__wrapper {
+    width: 350px;
+    background-color: rgba(206, 206, 206, 0.57);
+    padding: 10px;
+    color: grey;
 }
