@@ -48,13 +48,6 @@ main {
     margin: auto
 }
 
-
-.form__wrapper {
-    display: flex;
-    flex-direction: row;
-    width: 350px;
-}
-
 * + * {
     display: flex;
     flex-direction: column;
@@ -76,9 +69,6 @@ input.invalid {
 input:focus.invalid {
     outline: none;
     border: 1px solid orangered;
-}
-select {
-    width:40%;
 }
 select {
     width:40%;

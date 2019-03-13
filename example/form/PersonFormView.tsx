@@ -125,12 +125,36 @@ const PersonFormView = () => {
         <TextField
           name='status'
           required>
-          {({ handleChange }) => (
+          {({ value, handleChange }) => (
             <select onChange={handleChange}>
-              {maritalStatusOptions.map((status, idx) => (<option key={idx} value={status.value}>{status.label}</option>))}
+              {maritalStatusOptions.map((status, idx) => (
+                <option key={idx} 
+                        value={status.value} 
+                        selected={status.value === value}>{status.label}
+                </option>)
+              )}
             </select>
           )}
         </TextField>
+
+        <FormValues>
+          {(values) => (values.status === 'relationship' &&
+            <TextField
+              name='partner'
+              required>
+              {({ value, handleChange, errors, isDirty, config }) => (
+                <>
+                  <SimpleInput handleChange={handleChange}
+                    value={value}
+                    className={isDirty && errors.has ? 'invalid' : undefined}
+                    {...config}
+                  />
+                  {isDirty && errors.required && <label>Champ obligatoire</label>}
+                </>
+              )}
+            </TextField>
+          )}
+        </FormValues>
 
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
           <ResetAction>
