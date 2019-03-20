@@ -5,11 +5,11 @@ import {
   emailPattern
 } from './personConstraints';
 import { AgeErrors } from './AgeErrors';
-import { createFormComponents } from '../../src/FormComponents';
+import { createFormComponents } from '../../src';
 import { EmailInput } from './PersonInputs';
 import { maritalStatusOptions, PersonFormValues, personFormValues } from './PersonFormValues';
-import { SimpleInput } from '../../src/SimpleInput';
-import { ValueChangedEvent, ValidationStrategy } from '../../src/types';
+import { SimpleInput } from '../../src';
+import { ValueChangedEvent, ValidationStrategy } from '../../src';
 import { FormDevTool } from './FormDevTool';
 
 const {
@@ -136,25 +136,6 @@ const PersonFormView = () => {
             </select>
           )}
         </TextField>
-
-        <FormValues>
-          {(values) => (values.status === 'relationship' &&
-            <TextField
-              name='partner'
-              required>
-              {({ value, handleChange, errors, isDirty, config }) => (
-                <>
-                  <SimpleInput handleChange={handleChange}
-                    value={value}
-                    className={isDirty && errors.has ? 'invalid' : undefined}
-                    {...config}
-                  />
-                  {isDirty && errors.required && <label>Champ obligatoire</label>}
-                </>
-              )}
-            </TextField>
-          )}
-        </FormValues>
 
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
           <ResetAction>

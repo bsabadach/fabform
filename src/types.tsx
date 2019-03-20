@@ -17,9 +17,7 @@ export type ConstraintName<T> = T extends
 
 export type FieldType = 'text' | 'number' | 'boolean'
 
-export type InputValueType = string | string[] | number
-
-export type FormValueType = InputValueType | boolean
+export type FormValueType = string | string[] | number | boolean
 
 export type ValidationStrategy = 'change' | 'blur' | 'submit'
 
@@ -100,7 +98,7 @@ export type AssignProps<V extends FormValues> = {
   source: FormValueType
   satisfies: ValueConstraint<string>
   assign: keyof V
-  withvalue: FormValueType
+  withValue: FormValueType
 }
 
 export type WithPattern = { pattern?: string }

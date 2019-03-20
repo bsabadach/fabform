@@ -8,7 +8,6 @@ import {
   ResetRenderer,
   SubmitRenderer,
   ValuesRenderer,
-  ValueConstraint,
   AssignProps
 } from './types'
 import { createFormStore } from './FormStore'
@@ -70,15 +69,14 @@ export const createFormComponents = <V extends FormValues>(
   }
 
   const Assign: FC<AssignProps<V>> = props => {
-    const { source, satisfies, assign, withvalue } = props
+    const { source, satisfies, assign, withValue } = props
     const {
       actions: { changeValueOf }
     } = useContext(formContext)
 
     useEffect(() => {
-      const isStatisfied = satisfies.check(source)
-      if (isStatisfied) {
-        changeValueOf(assign, withvalue)
+      if (satisfies.check(source)) {
+        changeValueOf(assign, withValue)
       }
     }, [source])
 

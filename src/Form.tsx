@@ -24,7 +24,7 @@ export const createForm = <V extends FormValues>(
       if (onValueChanged) {
         formStore.callbacks.onValueChanged = onValueChanged
       }
-      formStore.config.validateOn = validateOn
+      formStore.config.validateOn = validateOn || 'submit'
       if (['blur', 'change'].includes(validateOn || '')) {
         formStore.actions.updateValidity()
       }
@@ -34,7 +34,7 @@ export const createForm = <V extends FormValues>(
     }, [])
 
     return (
-      <Provider value={{ actions, state, validateOn }}>
+      <Provider value={{ actions, state, validateOn:validateOn || 'submit' }}>
         <form
           noValidate={true}
           onSubmit={() => {}}
