@@ -107,7 +107,7 @@ export interface FieldRenderer<T extends FormValueType, C extends string> {
   renderer?: (props: FieldRendererProps<T, C>) => ReactElement | null
 }
 
-export interface SubmitRenderer<V extends FormValues> {
+export interface SubmitRenderer {
   children: (submit: () => void, hasErrors: boolean) => ReactElement
 }
 
@@ -192,7 +192,7 @@ export type FormComponents<V extends FormValues> = {
   BooleanField: <C extends string = never>(
     p: CommonFieldProps<V, boolean, C>
   ) => ReactElement<any>
-  SubmitAction: FC<SubmitRenderer<V>>
+  SubmitAction: FC<SubmitRenderer>
   ResetAction: FC<ResetRenderer>
   FormStatus: FC<FormStatusRenderer>
   FormValues: FC<ValuesRenderer<V>>

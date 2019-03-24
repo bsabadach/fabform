@@ -86,7 +86,7 @@ export const createFormComponents = <V extends FormValues>(
   /**
    * Submit form component
    */
-  const SubmitAction: FC<SubmitRenderer<V>> = ({ children }) => {
+  const SubmitAction: FC<SubmitRenderer> = ({ children }) => {
     const {
       actions: { submit },
       state: {
