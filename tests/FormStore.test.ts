@@ -99,7 +99,7 @@ test.cb('Form submit callback should be invoked when invoking submit', (t) => {
     constraints: []
   })
   formStore.actions.addField(field)
-  formStore.callbacks.onSubmit = onSubmit
+  formStore.on.submit = onSubmit
   formStore.actions.changeValueOf(
     'firstname', 'rene')
   formStore.actions.submit()
@@ -110,7 +110,7 @@ test.cb('Form reset callback should be invoked when invoking reset', (t) => {
     t.end()
   }
   const formStore = createFormStore(personFormValues)
-  formStore.callbacks.onReset = reset
+  formStore.on.reset = reset
   formStore.actions.reset()
 })
 

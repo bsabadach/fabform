@@ -40,7 +40,7 @@ export const createFormComponents = <V extends FormValues>(
 
   type JSXFieldType<T extends FormValueType> = <C extends string>(
     p: CommonFieldProps<FormValues, T, C>
-  ) => ReactElement<any>
+  ) => ReactElement
   /**
    * Text field
    */

@@ -58,6 +58,22 @@ export type FormState<V extends FormValues> = Readonly<{
   }
 }>
 
+export interface FieldRendererProps<
+  T extends FormValueType,
+  C extends string = never
+> {
+  config: {
+    type: FieldType
+    name: string
+  }
+  value: T
+  handleChange: (
+    evt: SyntheticEvent<HTMLInputElement> | SyntheticEvent<HTMLSelectElement>
+  ) => void
+  errors: FieldErrors<C>
+  isDirty: boolean
+}
+
 export type CommonFieldProps<
   V extends FormValues,
   T extends FormValueType,
@@ -77,22 +93,6 @@ export type FieldProps<
   type: FieldType
 } & CommonFieldProps<V, T, C> &
   WithPattern
-
-export interface FieldRendererProps<
-  T extends FormValueType,
-  C extends string = never
-> {
-  config: {
-    type: FieldType
-    name: string
-  }
-  value: T
-  handleChange: (
-    evt: SyntheticEvent<HTMLInputElement> | SyntheticEvent<HTMLSelectElement>
-  ) => void
-  errors: FieldErrors<C>
-  isDirty: boolean
-}
 
 export type AssignProps<V extends FormValues> = {
   source: FormValueType
@@ -126,7 +126,7 @@ export interface FormStatusRenderer {
 }
 
 export interface ValuesRenderer<T extends FormValues> {
-  children: (values: T) => ReactElement<any>
+  children: (values: T) => ReactElement
 }
 
 export interface FormActions<V> {
@@ -154,11 +154,11 @@ export type ValueChangedEvent<V extends FormValues> = {
 export type FormStore<V extends FormValues> = {
   readonly actions: FormActions<V> & FieldActions<V>
   readonly state: FormState<V>
-  callbacks: {
-    afterUpdate: (val: FormState<V>) => void
-    onValueChanged: (val: ValueChangedEvent<V>) => void
-    onSubmit: (values: V) => void
-    onReset?: () => void
+  on: {
+    update: (val: FormState<V>) => void
+    valueChanged: (val: ValueChangedEvent<V>) => void
+    submit: (values: V) => void
+    reset?: () => void
   }
   config: {
     validateOn: ValidationStrategy

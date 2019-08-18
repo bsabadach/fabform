@@ -11,15 +11,15 @@ export const createFormStore = <V extends FormValues>(
   initialValues: V
 ): FormStore<V> => {
   const store = {
-    callbacks: {
-      afterUpdate: (_: FormState<V>) => {},
-      onValueChanged: (_: {
+    on: {
+      update: (_: FormState<V>) => {},
+      valueChanged: (_: {
         name: keyof V
         oldVal: FormValueType
         newVal: FormValueType
       }) => {},
-      onSubmit: (_: V) => {},
-      onReset: () => {}
+      submit: (_: V) => {},
+      reset: () => {}
     },
     state: {
       get values(): V {
@@ -46,16 +46,16 @@ export const createFormStore = <V extends FormValues>(
 
     actions: {
       addField(field: FieldModel<V, string>) {
-        const { callbacks, state } = store
+        const { on, state } = store
         state.fields[field.name] = field
-        callbacks.afterUpdate({
+        on.update({
           ...state
         })
       },
       removeField(name: keyof V) {
-        const { callbacks, state } = store
+        const { on, state } = store
         delete state.fields[name]
-        callbacks.afterUpdate({
+        on.update({
           ...state
         })
       },
@@ -66,56 +66,56 @@ export const createFormStore = <V extends FormValues>(
         return (initialValues[name] as FormValueType) || ''
       },
       changeValueOf(name: keyof V, newVal: FormValueType) {
-        const { callbacks, state, actions, config } = store
+        const { on, state, actions, config } = store
         const field = state.fields[name]
         const oldVal = field.value
         field.value = newVal
         field.isDirty = true
         state.status.pristine = false
-        callbacks.afterUpdate({
+        on.update({
           ...state
         })
-        callbacks.onValueChanged({ name, oldVal, newVal })
+        on.valueChanged({ name, oldVal, newVal })
       },
       checkValidityOf(name: keyof V) {
-        const { callbacks, state, actions } = store
+        const { on, state, actions } = store
         const field = state.fields[name]
         if (field === undefined) {
           return
         }
         field.check()
         actions.updateValidity()
-        callbacks.afterUpdate({
+        on.update({
           ...state
         })
       },
       updateValidity() {
-        const { callbacks, state } = store
+        const { on, state } = store
         Object.values(state.fields).forEach(field => field.check())
         state.status.valid = Object.values(state.fields).every(
           field => field.isValid
         )
-        callbacks.afterUpdate({
+        on.update({
           ...state
         })
       },
       submit() {
-        const { actions, callbacks, state } = store
+        const { actions, on, state } = store
         actions.updateValidity()
         if (state.status.valid) {
-          callbacks.onSubmit(store.state.values)
+          on.submit(store.state.values)
         }
       },
       reset() {
-        const { callbacks, state } = store
+        const { on, state } = store
         Object.values(state.fields).forEach(field =>
           field.reset(initialValues[field.name])
         )
         state.status.pristine = true
-        callbacks.afterUpdate({
+        on.update({
           ...state
         })
-        callbacks.onReset && callbacks.onReset()
+        on.reset && on.reset()
       },
       dispose() {
         store.state.fields = {} as Record<keyof V, FieldModel<V, string>>

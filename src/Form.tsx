@@ -15,14 +15,14 @@ export const createForm = <V extends FormValues>(
     const [state, updateState] = useState(initialState)
     const { validateOn, onValueChanged, onReset, onSubmit, ...attrs } = props
     useEffect(() => {
-      formStore.callbacks = {
-        ...formStore.callbacks,
-        afterUpdate: updateState,
-        onReset,
-        onSubmit
+      formStore.on = {
+        ...formStore.on,
+        update: updateState,
+        reset: onReset,
+        submit: onSubmit
       }
       if (onValueChanged) {
-        formStore.callbacks.onValueChanged = onValueChanged
+        formStore.on.valueChanged = onValueChanged
       }
       formStore.config.validateOn = validateOn || 'submit'
       if (['blur', 'change'].includes(validateOn || '')) {
@@ -34,7 +34,7 @@ export const createForm = <V extends FormValues>(
     }, [])
 
     return (
-      <Provider value={{ actions, state, validateOn:validateOn || 'submit' }}>
+      <Provider value={{ actions, state, validateOn: validateOn || 'submit' }}>
         <form
           noValidate={true}
           onSubmit={() => {}}

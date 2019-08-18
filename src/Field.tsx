@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useContext, useEffect } from 'react'
+import React, { SyntheticEvent, useContext, useEffect, useCallback } from 'react'
 import {
   FieldActions,
   FieldProps,
@@ -6,8 +6,7 @@ import {
   FormValueType,
   FieldType,
   FormContext,
-  ValidationStrategy,
-  FormActions
+  ValidationStrategy
 } from './types'
 import { buildFieldModel } from './FieldModel'
 

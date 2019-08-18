@@ -127,10 +127,10 @@ const PersonFormView = () => {
           required>
           {({ value, handleChange }) => (
             <select onChange={handleChange}>
-              {maritalStatusOptions.map((status, idx) => (
+              {maritalStatusOptions.map(({value:aValue,label}, idx) => (
                 <option key={idx} 
-                        value={status.value} 
-                        selected={status.value === value}>{status.label}
+                        value={aValue}
+                        selected={aValue === value}>{label}
                 </option>)
               )}
             </select>
