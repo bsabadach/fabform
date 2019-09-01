@@ -6,10 +6,7 @@ export const RequiredConstraint: ValueConstraint<'required'> = {
   name: 'required',
   check(value: FormValueType) {
     if (value === null) return false
-    if (typeof value === 'string') {
-      return value.trim() !== ''
-    }
-    return true
+    return typeof value === 'string' ? value.trim() !== '' : false
   }
 }
 
@@ -28,4 +25,3 @@ export const createPatternConstraint = (
     return new RegExp(pattern).test(value as string)
   }
 })
-

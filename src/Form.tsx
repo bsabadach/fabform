@@ -24,7 +24,9 @@ export const createForm = <V extends FormValues>(
       if (onValueChanged) {
         formStore.on.valueChanged = onValueChanged
       }
+
       formStore.config.validateOn = validateOn || 'submit'
+
       if (['blur', 'change'].includes(validateOn || '')) {
         formStore.actions.updateValidity()
       }

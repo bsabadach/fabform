@@ -28,6 +28,7 @@ export const buildFieldModel = <V extends FormValues>({
 }) => {
   let fullConstraints: ValueConstraint<string>[] = []
   const isDirty = false
+
   if (required) {
     fullConstraints.push(RequiredConstraint)
   }
@@ -36,16 +37,14 @@ export const buildFieldModel = <V extends FormValues>({
     fullConstraints.push(NumberConstraint)
   }
 
-  if (pattern !== undefined) {
+  if (!!pattern) {
     fullConstraints.push(createPatternConstraint(pattern))
   }
 
-  if (constraints) {
-    if (Array.isArray(constraints)) {
-      fullConstraints = fullConstraints.concat(constraints)
-    } else {
-      fullConstraints.push(constraints)
-    }
+  if (!!constraints) {
+    fullConstraints = fullConstraints.concat(
+      Array.isArray(constraints) ? constraints : [constraints]
+    )
   }
 
   const field = {

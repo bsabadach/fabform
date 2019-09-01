@@ -66,7 +66,7 @@ export const createFormStore = <V extends FormValues>(
         return (initialValues[name] as FormValueType) || ''
       },
       changeValueOf(name: keyof V, newVal: FormValueType) {
-        const { on, state, actions, config } = store
+        const { on, state } = store
         const field = state.fields[name]
         const oldVal = field.value
         field.value = newVal
@@ -102,9 +102,7 @@ export const createFormStore = <V extends FormValues>(
       submit() {
         const { actions, on, state } = store
         actions.updateValidity()
-        if (state.status.valid) {
-          on.submit(store.state.values)
-        }
+        state.status.valid && on.submit(store.state.values)
       },
       reset() {
         const { on, state } = store
