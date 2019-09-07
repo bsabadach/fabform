@@ -1,16 +1,8 @@
-import { KnownConstraintNames } from './Constraints'
-import React, {
-  FC,
-  FormHTMLAttributes,
-  ReactElement,
-  Context,
-  SyntheticEvent
-} from 'react'
+import React, { Context, FC, FormHTMLAttributes, ReactElement, SyntheticEvent } from 'react'
 
 export type TypeWithoutKeys<T, K> = Pick<T, Exclude<keyof T, K>>
 
-export type ConstraintName<T> = T extends
-  | ValueConstraint<infer U>
+export type ConstraintName<T> = T extends | ValueConstraint<infer U>
   | ValueConstraint<infer U>[]
   ? U
   : never
@@ -25,6 +17,8 @@ export type ValueConstraint<N extends string> = {
   name: N
   check: (value: FormValueType) => boolean
 }
+
+export type KnownConstraintNames = 'required' | 'number' | 'pattern'
 
 export interface FormValues {
   [name: string]: FormValueType
@@ -58,10 +52,8 @@ export type FormState<V extends FormValues> = Readonly<{
   }
 }>
 
-export interface FieldRendererProps<
-  T extends FormValueType,
-  C extends string = never
-> {
+export type FieldRendererProps<T extends FormValueType,
+  C extends string = never> = {
   config: {
     type: FieldType
     name: string
@@ -74,22 +66,18 @@ export interface FieldRendererProps<
   isDirty: boolean
 }
 
-export type CommonFieldProps<
-  V extends FormValues,
+export type CommonFieldProps<V extends FormValues,
   T extends FormValueType,
-  C extends string
-> = {
+  C extends string> = {
   name: keyof V
   required?: boolean
   constraints?: ValueConstraint<C> | ValueConstraint<C>[]
   children?: (props: FieldRendererProps<T, C>) => ReactElement
 } & FieldRenderer<T, C>
 
-export type FieldProps<
-  V extends FormValues,
+export type FieldProps<V extends FormValues,
   T extends FormValueType,
-  C extends string
-> = {
+  C extends string> = {
   type: FieldType
 } & CommonFieldProps<V, T, C> &
   WithPattern
@@ -117,12 +105,16 @@ export interface ResetRenderer {
 
 export interface FormStatusRenderer {
   children: ({
-    valid,
-    dirty
-  }: {
+               valid,
+               dirty
+             }: {
     valid: boolean
     dirty: boolean
   }) => ReactElement
+}
+
+export interface FormStateRenderer<V extends FormValues> {
+  children: (state: FormState<V>) => ReactElement
 }
 
 export interface ValuesRenderer<T extends FormValues> {
@@ -145,11 +137,11 @@ export interface FieldActions<V extends FormValues> {
   checkValidityOf: (name: keyof V) => void
 }
 
-export type ValueChangedEvent<V extends FormValues> = {
+export type ValueChangedEvent<V extends FormValues> = Readonly<{
   name: keyof V | ''
   oldVal: FormValueType | ''
   newVal: FormValueType | ''
-}
+}>
 
 export type FormStore<V extends FormValues> = {
   readonly actions: FormActions<V> & FieldActions<V>
@@ -171,17 +163,22 @@ export type FormContext<V extends FormValues> = Context<{
   validateOn: ValidationStrategy
 }>
 
-export type FormProps<V extends FormValues> = {
+export type FormProps<V extends FormValues> = Readonly<{
   onSubmit: (values: V) => void
   onReset?: () => void
   validateOn?: ValidationStrategy
   onValueChanged?: (val: ValueChangedEvent<V>) => void
-} & TypeWithoutKeys<
-  FormHTMLAttributes<HTMLFormElement>,
-  'onReset' | 'onSubmit' | 'noValidate'
->
+} & TypeWithoutKeys<FormHTMLAttributes<HTMLFormElement>,
+  'onReset' | 'onSubmit' | 'noValidate'>>
 
-export type FormComponents<V extends FormValues> = {
+
+export type DevToolsProps<V extends FormValues> = Readonly<{
+  connect: () => void
+  disconnect: () => void
+  send: (message: string, state: FormState<V>) => void
+}>
+
+export type FormComponents<V extends FormValues> = Readonly<{
   Form: FC<FormProps<V>>
   TextField: <C extends string = never>(
     p: CommonFieldProps<V, string, C> & WithPattern
@@ -196,11 +193,13 @@ export type FormComponents<V extends FormValues> = {
   ResetAction: FC<ResetRenderer>
   FormStatus: FC<FormStatusRenderer>
   FormValues: FC<ValuesRenderer<V>>
+  DevTools: FC<DevToolsProps<V>>
   Assign: FC<AssignProps<V>>
-}
+}>
 
 export type FormProviderType<V extends FormValues> = {
   state: FormState<V>
   actions: FormActions<V> & FieldActions<V>
   validateOn: ValidationStrategy
 }
+

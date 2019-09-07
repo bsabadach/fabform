@@ -1,7 +1,5 @@
 import { FormValueType, ValueConstraint } from './types'
 
-export type KnownConstraintNames = 'required' | 'number' | 'pattern'
-
 export const RequiredConstraint: ValueConstraint<'required'> = {
   name: 'required',
   check(value: FormValueType) {

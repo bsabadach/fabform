@@ -13,16 +13,13 @@ export const createForm = <V extends FormValues>(
    */
   const Form: FC<FormProps<V>> = props => {
     const [state, updateState] = useState(initialState)
-    const { validateOn, onValueChanged, onReset, onSubmit, ...attrs } = props
+    const { validateOn, onReset, onSubmit, ...attrs } = props
     useEffect(() => {
       formStore.on = {
         ...formStore.on,
         update: updateState,
         reset: onReset,
         submit: onSubmit
-      }
-      if (onValueChanged) {
-        formStore.on.valueChanged = onValueChanged
       }
 
       formStore.config.validateOn = validateOn || 'submit'

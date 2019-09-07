@@ -1,14 +1,15 @@
 import React, { FC, ReactElement, useContext, useEffect } from 'react'
 import {
+  AssignProps,
   CommonFieldProps,
+  DevToolsProps,
   FormComponents,
   FormStatusRenderer,
   FormValues,
   FormValueType,
   ResetRenderer,
   SubmitRenderer,
-  ValuesRenderer,
-  AssignProps
+  ValuesRenderer
 } from './types'
 import { createFormStore } from './FormStore'
 import { createForm } from './Form'
@@ -125,6 +126,23 @@ export const createFormComponents = <V extends FormValues>(
     return children(Object.freeze(values))
   }
 
+
+  const DevTools: FC<DevToolsProps<V>> = (devTools) => {
+    const {
+      state
+    } = useContext(formContext)
+
+    useEffect(() => {
+      devTools.connect()
+      return (() => devTools.disconnect())
+    }, [])
+
+    useEffect(() => {
+      devTools.send('state changed', state)
+    }, [state])
+    return null
+  }
+
   return {
     Form,
     TextField,
@@ -134,6 +152,7 @@ export const createFormComponents = <V extends FormValues>(
     ResetAction,
     FormStatus,
     FormValues,
+    DevTools,
     Assign
   }
 }

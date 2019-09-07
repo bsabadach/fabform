@@ -7,12 +7,16 @@ import {
   ValidationStrategy
 } from './types'
 
+let devTools: any
+
 export const createFormStore = <V extends FormValues>(
   initialValues: V
 ): FormStore<V> => {
   const store = {
     on: {
-      update: (_: FormState<V>) => {},
+      update: (state: FormState<V>) => {
+        devTools && devTools.send('change state',  state )
+      },
       valueChanged: (_: {
         name: keyof V
         oldVal: FormValueType
