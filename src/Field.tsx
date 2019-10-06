@@ -1,4 +1,9 @@
-import React, { SyntheticEvent, useContext, useEffect, useCallback } from 'react'
+import React, {
+  SyntheticEvent,
+  useContext,
+  useEffect,
+  useCallback
+} from 'react'
 import {
   FieldActions,
   FieldProps,
@@ -8,9 +13,9 @@ import {
   FormContext,
   ValidationStrategy
 } from './types'
-import { buildFieldModel } from './FieldModel'
+import { buildField } from './FieldModel'
 
-export const createField = <V extends FormValues>(
+export const useField = <V extends FormValues>(
   formContext: FormContext<V>
 ) => {
   /**
@@ -24,15 +29,16 @@ export const createField = <V extends FormValues>(
   ) => (
     evt: SyntheticEvent<HTMLInputElement> | SyntheticEvent<HTMLSelectElement>
   ) => {
+    const { changeValueOf, checkValidityOf } = actions
     const value =
       type === 'boolean'
         ? (evt.target as HTMLInputElement).checked
         : (evt.target as HTMLInputElement).value
 
-    actions.changeValueOf(name, value)
+    changeValueOf(name, value)
 
     if (validateOn && evt.type === validateOn) {
-      actions.checkValidityOf(name)
+      checkValidityOf(name)
     }
   }
 
@@ -40,34 +46,41 @@ export const createField = <V extends FormValues>(
    * Abstract Form Field component
    */
   function Field<T extends FormValueType>(props: FieldProps<V, T, string>) {
-    const { actions, validateOn } = useContext(formContext)
+    const { actions, state, validateOn } = useContext(formContext)
+    const { fieldFor, firstValueFor } = state
+    const { addField, removeField, validate } = actions
     const { type, name, renderer, children, ...rest } = props
 
-    let field = actions.getField(name)
-    if (field === undefined) {
-      const value = actions.getInitValueOf(name)
-      field = buildFieldModel<V>({ type, name, value, ...rest })
-      actions.addField(field)
-    }
+    const hasField = fieldFor(name)
+    const field =
+      fieldFor(name) ||
+      buildField<V>({ type, name, value: firstValueFor(name), ...rest })
 
-    useEffect(() => {
-      return () => {
-        actions.removeField(name)
-        actions.updateValidity()
-      }
-    }, [])
+    !hasField && addField(field)
 
-    const handleChange = handleValueChanged(type, name, actions, validateOn)
+    useEffect(
+      () => () => {
+        removeField(name)
+        validate()
+      },
+      []
+    )
 
+    const handleChange = useCallback(
+      handleValueChanged(type, name, actions, validateOn),
+      []
+    )
+
+    const { value, errors, isDirty } = field
     const rendererArgs = {
-      value: field.value as T,
+      value: value as T,
       config: {
         type,
         name
       },
       handleChange,
-      errors: field.errors,
-      isDirty: field.isDirty
+      errors,
+      isDirty
     }
 
     return renderer === undefined

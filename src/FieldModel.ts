@@ -11,7 +11,7 @@ import {
   ValueConstraint
 } from './types'
 
-export const buildFieldModel = <V extends FormValues>({
+export const buildField = <V extends FormValues>({
   name,
   type,
   value,

@@ -2,7 +2,7 @@ import React, { Context, FC, FormHTMLAttributes, ReactElement, SyntheticEvent } 
 
 export type TypeWithoutKeys<T, K> = Pick<T, Exclude<keyof T, K>>
 
-export type ConstraintName<T> = T extends | ValueConstraint<infer U>
+export type ConstraintName<T> = T extends ValueConstraint<infer U>
   | ValueConstraint<infer U>[]
   ? U
   : never
@@ -41,16 +41,6 @@ export type FieldModel<V extends FormValues, C extends string> = {
   check: () => void
   reset: (value: FormValueType) => void
 }
-
-export type FormState<V extends FormValues> = Readonly<{
-  values: V
-  fields: Record<keyof V, FieldModel<V, string>>
-  status: {
-    pristine: boolean
-    valid: boolean
-    readonly dirty: boolean
-  }
-}>
 
 export type FieldRendererProps<T extends FormValueType,
   C extends string = never> = {
@@ -113,16 +103,22 @@ export interface FormStatusRenderer {
   }) => ReactElement
 }
 
-export interface FormStateRenderer<V extends FormValues> {
-  children: (state: FormState<V>) => ReactElement
-}
 
-export interface ValuesRenderer<T extends FormValues> {
-  children: (values: T) => ReactElement
-}
+export type FormState<V extends FormValues> = Readonly<{
+  values: V
+  fields: Record<keyof V, FieldModel<V, string>>
+  fieldFor: (name: keyof V) => FieldModel<V, string>
+  firstValueFor:(name: keyof V) => FormValueType
+  status: {
+    pristine: boolean
+    valid: boolean
+    readonly dirty: boolean
+  }
+}>
+
 
 export interface FormActions<V> {
-  updateValidity: () => void
+  validate: () => void
   submit: () => void
   reset: () => void
   dispose: () => void
@@ -131,9 +127,7 @@ export interface FormActions<V> {
 export interface FieldActions<V extends FormValues> {
   addField: (field: FieldModel<V, any>) => void
   removeField: (name: keyof V) => void
-  getField: (name: keyof V) => FieldModel<V, string>
   changeValueOf: (name: keyof V, value: FormValueType) => void
-  getInitValueOf: (name: keyof V) => FormValueType
   checkValidityOf: (name: keyof V) => void
 }
 
@@ -177,6 +171,15 @@ export type DevToolsProps<V extends FormValues> = Readonly<{
   disconnect: () => void
   send: (message: string, state: FormState<V>) => void
 }>
+
+
+export interface FormStateRenderer<V extends FormValues> {
+  children: (state: FormState<V>) => ReactElement
+}
+
+export interface ValuesRenderer<T extends FormValues> {
+  children: (values: T) => ReactElement
+}
 
 export type FormComponents<V extends FormValues> = Readonly<{
   Form: FC<FormProps<V>>

@@ -1,10 +1,10 @@
 import { test } from 'ava'
-import { buildFieldModel } from '../src/FieldModel'
+import { buildField } from '../src/FieldModel'
 import { PersonFormValues } from './fixtures/PersonFormValues';
 
 test('Optionnal text field model should have 0 constraint', (t) => {
 
-  const field = buildFieldModel<PersonFormValues>({
+  const field = buildField<PersonFormValues>({
     name: 'age',
     type: 'text',
     value: 'a text',
@@ -16,7 +16,7 @@ test('Optionnal text field model should have 0 constraint', (t) => {
 })
 
 test('Required text field model should have one constraints', (t) => {
-  const field = buildFieldModel<PersonFormValues>({
+  const field = buildField<PersonFormValues>({
     name: 'firstname',
     type: 'text',
     value: 'a text',
@@ -28,7 +28,7 @@ test('Required text field model should have one constraints', (t) => {
 })
 
 test('checking Required non empty text field model should set field to valid state', (t) => {
-  const field = buildFieldModel<PersonFormValues>( {
+  const field = buildField<PersonFormValues>( {
     name: 'firstname',
     type: 'text',
     value: 'a text',
@@ -41,7 +41,7 @@ test('checking Required non empty text field model should set field to valid sta
 })
 
 test('Checking Required  empty text field model should set field to invalid state', (t) => {
-  const field = buildFieldModel<PersonFormValues>({
+  const field = buildField<PersonFormValues>({
     name: 'firstname',
     type: 'text',
     value: ' ',

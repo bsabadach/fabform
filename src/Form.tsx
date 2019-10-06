@@ -2,33 +2,34 @@ import { FC, Provider, useEffect, useState } from 'react'
 import { FormProps, FormStore, FormValues, FormProviderType } from './types'
 import React from 'react'
 
-export const createForm = <V extends FormValues>(
+export const useForm = <V extends FormValues>(
   formStore: FormStore<V>,
   Provider: Provider<FormProviderType<V>>
 ): FC<FormProps<V>> => {
-  const { state: initialState, actions } = formStore
 
-  /**
-   * Form component
-   */
   const Form: FC<FormProps<V>> = props => {
-    const [state, updateState] = useState(initialState)
+    const { state: initialState, config, actions, on } = formStore
     const { validateOn, onReset, onSubmit, ...attrs } = props
+    const { validate, dispose } = actions
+
+    const [state, updateState] = useState(initialState)
+
     useEffect(() => {
       formStore.on = {
-        ...formStore.on,
+        ...on,
         update: updateState,
         reset: onReset,
         submit: onSubmit
       }
 
-      formStore.config.validateOn = validateOn || 'submit'
+      config.validateOn = validateOn || 'submit'
 
       if (['blur', 'change'].includes(validateOn || '')) {
-        formStore.actions.updateValidity()
+        validate()
       }
+
       return () => {
-        formStore.actions.dispose()
+        dispose()
       }
     }, [])
 

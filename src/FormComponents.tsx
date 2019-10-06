@@ -12,13 +12,13 @@ import {
   ValuesRenderer
 } from './types'
 import { createFormStore } from './FormStore'
-import { createForm } from './Form'
-import { createField } from './Field'
+import { useForm } from './Form'
+import { useField } from './Field'
 
 /**
  * Form components factory
  */
-export const createFormComponents = <V extends FormValues>(
+export const useFormComponents = <V extends FormValues>(
   values: V
 ): FormComponents<V> => {
   const formStore = createFormStore<V>(values)
@@ -35,9 +35,9 @@ export const createFormComponents = <V extends FormValues>(
   /**
    * Form component
    */
-  const Form = createForm<V>(formStore, formContext.Provider)
+  const Form = useForm<V>(formStore, formContext.Provider)
 
-  const Field = createField<V>(formContext)
+  const Field = useField<V>(formContext)
 
   type JSXFieldType<T extends FormValueType> = <C extends string>(
     p: CommonFieldProps<FormValues, T, C>

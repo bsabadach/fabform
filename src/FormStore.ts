@@ -9,13 +9,15 @@ import {
 
 let devTools: any
 
+const merge = Object.assign
+
 export const createFormStore = <V extends FormValues>(
   initialValues: V
 ): FormStore<V> => {
   const store = {
     on: {
       update: (state: FormState<V>) => {
-        devTools && devTools.send('change state',  state )
+        devTools && devTools.send('change state', state)
       },
       valueChanged: (_: {
         name: keyof V
@@ -26,15 +28,31 @@ export const createFormStore = <V extends FormValues>(
       reset: () => {}
     },
     state: {
+      fields: {} as Record<keyof V, FieldModel<V, string>>,
+      fieldFor(name: keyof V) {
+        const {
+          on,
+          state: { fields }
+        } = store
+        return fields[name]
+      },
       get values(): V {
         const values = {} as V
-        const { state } = store
-        Object.keys(state.fields).forEach(key => {
-          values[key] = state.fields[key].value
-        })
+        const {
+          state: { fields }
+        } = store
+        Object.keys(fields).reduce((output, key) => {
+          return {
+            ...output,
+            [key]: fields[key].value
+          }
+        }, values)
         return values
       },
-      fields: {} as Record<keyof V, FieldModel<V, string>>,
+      firstValueFor(name: keyof V) {
+        return (initialValues[name] as FormValueType) || ''
+      },
+
       status: {
         pristine: true,
         valid: true,
@@ -63,37 +81,40 @@ export const createFormStore = <V extends FormValues>(
           ...state
         })
       },
-      getField(name: keyof V) {
-        return store.state.fields[name]
-      },
-      getInitValueOf(name: keyof V) {
-        return (initialValues[name] as FormValueType) || ''
-      },
       changeValueOf(name: keyof V, newVal: FormValueType) {
         const { on, state } = store
         const field = state.fields[name]
         const oldVal = field.value
-        field.value = newVal
-        field.isDirty = true
-        state.status.pristine = false
+        merge(field, {
+          value: newVal,
+          isDirty: true
+        })
+        const { status } = state
+        merge(status, {
+          pristine: false
+        })
         on.update({
           ...state
         })
         on.valueChanged({ name, oldVal, newVal })
       },
       checkValidityOf(name: keyof V) {
-        const { on, state, actions } = store
+        const {
+          on,
+          state,
+          actions: { validate }
+        } = store
         const field = state.fields[name]
         if (field === undefined) {
           return
         }
         field.check()
-        actions.updateValidity()
+        validate()
         on.update({
           ...state
         })
       },
-      updateValidity() {
+      validate() {
         const { on, state } = store
         Object.values(state.fields).forEach(field => field.check())
         state.status.valid = Object.values(state.fields).every(
@@ -104,13 +125,19 @@ export const createFormStore = <V extends FormValues>(
         })
       },
       submit() {
-        const { actions, on, state } = store
-        actions.updateValidity()
-        state.status.valid && on.submit(store.state.values)
+        const {
+          actions: { validate },
+          on,
+          state
+        } = store
+        const { valid } = state.status
+        validate()
+        valid && on.submit(state.values)
       },
       reset() {
         const { on, state } = store
-        Object.values(state.fields).forEach(field =>
+        const { fields } = state
+        Object.values(fields).forEach(field =>
           field.reset(initialValues[field.name])
         )
         state.status.pristine = true

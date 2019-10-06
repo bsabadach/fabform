@@ -1,7 +1,7 @@
 import { test } from 'ava'
 import { personFormValues, PersonFormValues } from './fixtures/PersonFormValues'
 import { createFormStore } from '../src/FormStore'
-import { buildFieldModel } from '../src/FieldModel'
+import { buildField } from '../src/FieldModel'
 import { FieldType } from '../src/types';
 
 
@@ -14,45 +14,45 @@ test('Form status should be properly initialized', (t) => {
 
 test('Form field should be properly initialized', (t) => {
   const formStore = createFormStore(personFormValues)
-  const field = buildFieldModel<PersonFormValues>({
+  const field = buildField<PersonFormValues>({
     name: 'firstname',
     type: 'text' as FieldType,
     value: 'jean',
     required: true
   })
   formStore.actions.addField(field)
-  t.true(formStore.actions.getInitValueOf('firstname') === 'jean')
+  t.true(formStore.state.firstValueFor('firstname') === 'jean')
 })
 
 test('Form status should be valid with a valid field', (t) => {
   const formStore = createFormStore(personFormValues)
-  const field = buildFieldModel<PersonFormValues>({
+  const field = buildField<PersonFormValues>({
     name: 'firstname',
     type: 'text',
     value: 'jean',
     required: true
   })
   formStore.actions.addField(field)
-  formStore.actions.updateValidity()
+  formStore.actions.validate()
   t.true(formStore.state.status.valid)
 })
 
 test('Form status should be invalid with an invalid field', (t) => {
   const formStore = createFormStore(personFormValues)
-  const field = buildFieldModel<PersonFormValues>({
+  const field = buildField<PersonFormValues>({
     name: 'firstname',
     type: 'text',
     value: '',
     required: true,
   })
   formStore.actions.addField(field)
-  formStore.actions.updateValidity()
+  formStore.actions.validate()
   t.false(formStore.state.status.valid)
 })
 
 test('Field value should be updated and form dirty when invoking changeValueFor', (t) => {
   const formStore = createFormStore(personFormValues)
-  const field = buildFieldModel<PersonFormValues>({
+  const field = buildField<PersonFormValues>({
     name: 'firstname',
     type: 'text',
     value: '',
@@ -68,7 +68,7 @@ test('Field value should be updated and form dirty when invoking changeValueFor'
 
 test('Form should be pristine when invoking reset', (t) => {
   const formStore = createFormStore(personFormValues)
-  const field = buildFieldModel<PersonFormValues>({
+  const field = buildField<PersonFormValues>({
     name: 'firstname',
     type: 'text',
     value: '',
@@ -90,7 +90,7 @@ test.cb('Form submit callback should be invoked when invoking submit', (t) => {
     t.end()
   }
   const formStore = createFormStore(personFormValues)
-  const field = buildFieldModel<PersonFormValues>({
+  const field = buildField<PersonFormValues>({
     name: 'firstname',
     type: 'text',
     value: '',

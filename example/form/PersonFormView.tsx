@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AgeConstraint, emailPattern, NoNumberConstraint } from './personConstraints'
 import { AgeErrors } from './AgeErrors'
-import { createFormComponents, SimpleInput, ValidationStrategy } from '../../src'
+import { useFormComponents, SimpleInput, ValidationStrategy } from '../../src'
 import { EmailInput } from './PersonInputs'
 import { maritalStatusOptions, PersonFormValues, personFormValues } from './PersonFormValues'
 import { FormDevTool } from './FormDevTool'
@@ -14,19 +14,18 @@ const {
   ResetAction,
   FormStatus,
   DevTools
-} = createFormComponents<PersonFormValues>(personFormValues)
+} = useFormComponents<PersonFormValues>(personFormValues)
 
 // @ts-ignore
 const devTools = window['__REDUX_DEVTOOLS_EXTENSION__']
 
 const PersonFormView = () => {
-  const [validateOn, setValidateOn] = useState<ValidationStrategy>('submit')
   return (
     <div>
       <Form
         onSubmit={(_: PersonFormValues) => {
         }}
-        validateOn={validateOn}
+        validateOn={'change'}
         className="form__wrapper"
       >
         <br/>
@@ -199,12 +198,6 @@ const PersonFormView = () => {
               )}
             </FormStatus>
           </div>
-        </div>
-        <div>
-          <FormDevTool
-            validateOn={validateOn}
-            handleChangeValidateOn={setValidateOn}
-          />
         </div>
         <DevTools {...devTools} />
       </Form>
