@@ -7,7 +7,7 @@ export const useForm = <V extends FormValues>(
   Provider: Provider<FormProviderType<V>>
 ): FC<FormProps<V>> => {
 
-  const Form: FC<FormProps<V>> = props => {
+  const FabForm: FC<FormProps<V>> = props => {
     const { state: initialState, config, actions, on } = formStore
     const { validateOn, onReset, onSubmit, ...attrs } = props
     const { validate, dispose } = actions
@@ -47,7 +47,7 @@ export const useForm = <V extends FormValues>(
     )
   }
 
-  Form.displayName = 'Form'
+  FabForm.displayName = 'FabForm'
 
-  return Form
+  return FabForm
 }

@@ -1,25 +1,26 @@
-import React, { useState } from 'react'
+import * as React from "react";
 import { AgeConstraint, emailPattern, NoNumberConstraint } from './personConstraints'
 import { AgeErrors } from './AgeErrors'
-import { useFormComponents, SimpleInput, ValidationStrategy } from '../../src'
+import { useFormComponents, SimpleInput} from '../../src'
 import { EmailInput } from './PersonInputs'
 import { maritalStatusOptions, PersonFormValues, personFormValues } from './PersonFormValues'
 import { FormDevTool } from './FormDevTool'
 
-const {
-  Form,
-  TextField,
-  NumberField,
-  SubmitAction,
-  ResetAction,
-  FormStatus,
-  DevTools
-} = useFormComponents<PersonFormValues>(personFormValues)
+
 
 // @ts-ignore
 const devTools = window['__REDUX_DEVTOOLS_EXTENSION__']
 
 const PersonFormView = () => {
+  const {
+    Form,
+    TextField,
+    NumberField,
+    SubmitAction,
+    ResetAction,
+    FormStatus,
+    DevTools
+  } = useFormComponents<PersonFormValues>(personFormValues)
   return (
     <div>
       <Form

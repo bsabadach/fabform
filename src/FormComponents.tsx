@@ -35,49 +35,44 @@ export const useFormComponents = <V extends FormValues>(
   /**
    * Form component
    */
-  const Form = useForm<V>(formStore, formContext.Provider)
+  const FabForm = useForm<V>(formStore, formContext.Provider)
 
   const Field = useField<V>(formContext)
 
   type JSXFieldType<T extends FormValueType> = <C extends string>(
     p: CommonFieldProps<FormValues, T, C>
   ) => ReactElement
+
   /**
    * Text field
    */
   const TextField: JSXFieldType<string> = <C extends string>(
     props: CommonFieldProps<V, string, C>
-  ) => {
-    return <Field type={'text'} {...props} />
-  }
+  ) =>  <Field type={'text'} {...props} />
 
   /**
    * Number field
    */
   const NumberField: JSXFieldType<number> = <C extends string>(
     props: CommonFieldProps<V, number, C>
-  ) => {
-    return <Field type={'number'} {...props} />
-  }
+  ) => <Field type={'number'} {...props} />
 
   /**
    * Boolean field
    */
   const BooleanField: JSXFieldType<boolean> = <C extends string>(
     props: CommonFieldProps<V, boolean, C>
-  ) => {
-    return <Field type={'boolean'} {...props} />
-  }
+  ) => <Field type={'boolean'} {...props} />
 
   const Assign: FC<AssignProps<V>> = props => {
-    const { source, satisfies, assign, withValue } = props
+    const { source, satisfies, target, withValue } = props
     const {
       actions: { changeValueOf }
     } = useContext(formContext)
 
     useEffect(() => {
       if (satisfies.check(source)) {
-        changeValueOf(assign, withValue)
+        changeValueOf(target, withValue)
       }
     }, [source])
 
@@ -133,18 +128,18 @@ export const useFormComponents = <V extends FormValues>(
     } = useContext(formContext)
 
     useEffect(() => {
-      devTools.connect()
-      return (() => devTools.disconnect())
+      devTools && devTools.connect()
+      return (() => devTools  && devTools.disconnect())
     }, [])
 
     useEffect(() => {
-      devTools.send('state changed', state)
+      devTools  && devTools.send('state changed', state)
     }, [state])
     return null
   }
 
   return {
-    Form,
+    FabForm,
     TextField,
     NumberField,
     BooleanField,

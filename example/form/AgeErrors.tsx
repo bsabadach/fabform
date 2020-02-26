@@ -1,5 +1,6 @@
 import { FieldErrors,ConstraintName } from "../../src/types";
-import React, { FC } from "react";
+import * as React from "react";
+import { FC } from "react";
 import { AgeConstraint } from "./personConstraints";
 type AgeErrorsProps={
     isDirty:boolean,

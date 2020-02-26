@@ -43,7 +43,7 @@ export const useField = <V extends FormValues>(
   }
 
   /**
-   * Abstract Form Field component
+   * Abstract Form Field component that will used to nuild Text Number and boolean components
    */
   function Field<T extends FormValueType>(props: FieldProps<V, T, string>) {
     const { actions, state, validateOn } = useContext(formContext)
@@ -66,10 +66,7 @@ export const useField = <V extends FormValues>(
       []
     )
 
-    const handleChange = useCallback(
-      handleValueChanged(type, name, actions, validateOn),
-      []
-    )
+    const handleChange =handleValueChanged(type, name, actions, validateOn)
 
     const { value, errors, isDirty } = field
     const rendererArgs = {

@@ -1,6 +1,6 @@
 import React, { Context, FC, FormHTMLAttributes, ReactElement, SyntheticEvent } from 'react'
 
-export type TypeWithoutKeys<T, K> = Pick<T, Exclude<keyof T, K>>
+export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
 export type ConstraintName<T> = T extends ValueConstraint<infer U>
   | ValueConstraint<infer U>[]
@@ -14,7 +14,6 @@ export type FormValueType = string | string[] | number | boolean
 export type ValidationStrategy = 'change' | 'blur' | 'submit'
 
 export type ValueConstraint<N extends string> = {
-  name: N
   check: (value: FormValueType) => boolean
 }
 
@@ -74,8 +73,8 @@ export type FieldProps<V extends FormValues,
 
 export type AssignProps<V extends FormValues> = {
   source: FormValueType
+  target: keyof V
   satisfies: ValueConstraint<string>
-  assign: keyof V
   withValue: FormValueType
 }
 
@@ -162,7 +161,7 @@ export type FormProps<V extends FormValues> = Readonly<{
   onReset?: () => void
   validateOn?: ValidationStrategy
   onValueChanged?: (val: ValueChangedEvent<V>) => void
-} & TypeWithoutKeys<FormHTMLAttributes<HTMLFormElement>,
+} & Omit<FormHTMLAttributes<HTMLFormElement>,
   'onReset' | 'onSubmit' | 'noValidate'>>
 
 
@@ -182,7 +181,7 @@ export interface ValuesRenderer<T extends FormValues> {
 }
 
 export type FormComponents<V extends FormValues> = Readonly<{
-  Form: FC<FormProps<V>>
+  FabForm: FC<FormProps<V>>
   TextField: <C extends string = never>(
     p: CommonFieldProps<V, string, C> & WithPattern
   ) => ReactElement<any>
