@@ -24,7 +24,7 @@
     "@types/react-test-renderer": "16.8.1",
     "ava": "0.25.0",
     "ava-ts": "0.25.2",
-    "browser-env": "3.2.6",
+    "browser-env": "3.3.0",
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.10.0",
     "jsdom": "12.2.0",
